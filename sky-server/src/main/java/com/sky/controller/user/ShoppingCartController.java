@@ -52,7 +52,6 @@ public class ShoppingCartController {
         return Result.success();
     }
 
-
     /**
      * 删除购物车商品
      * @param shoppingCartDTO
