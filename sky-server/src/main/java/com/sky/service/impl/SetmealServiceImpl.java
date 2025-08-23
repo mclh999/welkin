@@ -15,18 +15,17 @@ import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.SetmealService;
+import com.sky.vo.DishItemVO;
+import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Service
-public class
-SetmealServiceImpl implements SetmealService {
+public class SetmealServiceImpl implements SetmealService {
 
     @Autowired
     private SetmealMapper setmealMapper;
@@ -43,7 +42,7 @@ SetmealServiceImpl implements SetmealService {
     @Override
     public PageResult page(SetmealPageQueryDTO setmealPageQueryDTO) {
         PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
-        Page<Setmeal> page = setmealMapper.page(setmealPageQueryDTO);
+        Page<SetmealVO> page = setmealMapper.page(setmealPageQueryDTO);
         return new PageResult((page.getTotal()), page.getResult());
     }
 
@@ -54,7 +53,7 @@ SetmealServiceImpl implements SetmealService {
     @Override
     public void save(SetmealDTO setmealDTO) {
         //创建套餐对象
-        Setmeal setmeal = new Setmeal();
+        com.sky.entity.Setmeal setmeal = new com.sky.entity.Setmeal();
 
         //拷贝DTO数据
         BeanUtils.copyProperties(setmealDTO,setmeal);
@@ -86,7 +85,7 @@ SetmealServiceImpl implements SetmealService {
         //通过传参判断当前套餐是否未启售
         if(status==StatusConstant.DISABLE){
             //启售改成停售,直接更改
-            Setmeal setmeal = Setmeal.builder()
+            com.sky.entity.Setmeal setmeal = com.sky.entity.Setmeal.builder()
                     .id(id)
                     .status(status)
                     .build();
@@ -107,7 +106,7 @@ SetmealServiceImpl implements SetmealService {
             });
 
             //更新状态
-            Setmeal setmeal = Setmeal.builder()
+            com.sky.entity.Setmeal setmeal = com.sky.entity.Setmeal.builder()
                     .id(id)
                     .status(status)
                     .build();
@@ -125,7 +124,7 @@ SetmealServiceImpl implements SetmealService {
     public void delete(List<Long> ids) {
         //启售不能删除
         for (Long id : ids) {
-            Setmeal setmeal = setmealMapper.getById(id);
+            com.sky.entity.Setmeal setmeal = setmealMapper.getById(id);
             if(setmeal.getStatus()==StatusConstant.ENABLE){
                 throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
             }
@@ -145,7 +144,7 @@ SetmealServiceImpl implements SetmealService {
      */
     @Override
     public SetmealVO getById(Long id) {
-        Setmeal setmeal = setmealMapper.getById(id);
+        com.sky.entity.Setmeal setmeal = setmealMapper.getById(id);
         //获取菜品信息
         List<SetmealDish> setmealDishes = setmealDishMapper.getDishBySetmealId(id);
 
@@ -162,7 +161,7 @@ SetmealServiceImpl implements SetmealService {
      */
     @Override
     public void update(SetmealDTO setmealDTO) {
-        Setmeal setmeal = new Setmeal();
+        com.sky.entity.Setmeal setmeal = new com.sky.entity.Setmeal();
 
         BeanUtils.copyProperties(setmealDTO, setmeal);
 
@@ -181,5 +180,27 @@ SetmealServiceImpl implements SetmealService {
             setmealDishes.forEach(setmealDish -> setmealDish.setSetmealId(setmealId));
             setmealDishMapper.insertBatch(setmealDishes);
         }
+    }
+
+    /**
+     * 根据分类ID查询套餐信息
+     * @param setmeal
+     * @return
+     */
+    @Override
+    public List<Setmeal> list(Setmeal setmeal) {
+        return setmealMapper.list(setmeal);
+    }
+
+
+    /**
+     * 获取套餐详情
+     * @param id
+     * @return
+     */
+    @Override
+    public List<DishItemVO> getDishItems(Long id) {
+        List<DishItemVO> dishVOList = dishMapper.getDishItems(id);
+        return dishVOList;
     }
 }

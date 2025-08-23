@@ -38,10 +38,11 @@
 
     <select id="list" resultType="com.sky.entity.Category">
         select  * from category
-        where
-        <if test="type != null">
-            type = #{type}
-        </if>
+        <where>
+            <if test="type != null">
+                type = #{type}
+            </if>
+        </where>
         order by sort asc, update_time desc
     </select>
 

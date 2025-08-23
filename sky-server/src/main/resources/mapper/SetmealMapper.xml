@@ -7,12 +7,11 @@
         values(#{name},#{categoryId},#{price},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser},#{description},#{image})
     </insert>
 
-
-    <select id="page" resultType="com.sky.entity.Setmeal">
-        select * from setmeal
+    <select id="page" resultType="com.sky.vo.SetmealVO">
+        select s.*,c.name categoryName from setmeal s left join category c on s.category_id = c.id
         <where>
             <if test="name != null and name != ''">
-                and name like ('%',#{name},'%')
+                and name like concat ('%',#{name},'%')
             </if>
             <if test="categoryId != null">
                 and category_id = #{categoryId}
@@ -23,6 +22,7 @@
         </where>
         order by  update_time desc
     </select>
+
 
     <update id="update">
         update setmeal
@@ -49,4 +49,14 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="list" resultType="com.sky.entity.Setmeal">
+        select * from setmeal
+        <where>
+            <if test="name != null"> and name like concat('%',#{name},'%') </if>
+            <if test="categoryId != null"> and category_id = #{categoryId} </if>
+            <if test="status != null"> and status = #{status} </if>
+        </where>
+    </select>
+
 </mapper>

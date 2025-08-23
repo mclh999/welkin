@@ -6,6 +6,7 @@ import com.sky.constant.AutoFillConstant;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.enumeration.OperationType;
+import com.sky.vo.DishItemVO;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -41,10 +42,11 @@ public interface DishMapper {
      * 修改菜品
      * @param dish
      */
+    @AutoFill(value = OperationType.UPDATE)
     void update(Dish dish);
 
     /**
-     * 根据id查询
+     * 根据id查询菜品信息，查询回显
      * @param id
      * @return
      */
@@ -68,4 +70,11 @@ public interface DishMapper {
      * @return
      */
     List<Dish> getByCategoryId(Long categoryId);
+
+    /**
+     * 根据套餐id查询菜品选项
+     * @param id
+     * @return
+     */
+    List<DishItemVO> getDishItems(Long id);
 }

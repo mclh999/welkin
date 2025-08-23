@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @RequestMapping("/admin/category")
-@RestController
+@RestController("daminCategoryController")
 @Api(tags = "分类管理")
 public class CategoryController {
     @Autowired
