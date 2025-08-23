@@ -31,4 +31,12 @@
         </where>
 
     </select>
+
+    <delete id="deleteByUserId">
+        delete from shopping_cart where user_id = #{userId}
+    </delete>
+
+    <delete id="delete">
+        delete from shopping_cart where id = #{id}
+    </delete>
 </mapper>

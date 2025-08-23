@@ -26,4 +26,16 @@ public interface ShoppingCartMapper {
      * @param shoppingCart
      */
     void insert(ShoppingCart shoppingCart);
+
+    /**
+     * 清空当前用户的购物车数据
+     * @param currentId
+     */
+    void deleteByUserId(Long currentId);
+
+    /**
+     * 根据ID删除购物车数据
+     * @param id
+     */
+    void delete(Long id);
 }
