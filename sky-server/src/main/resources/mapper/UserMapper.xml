@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserMapper">
+
+    <select id="getByOpenId" resultType="com.sky.entity.User">
+        select * from User where openid = #{openid}
+    </select>
+
+
+    <!--    记得主键返回，用于口味表的录入-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert user(name,phone,sex,id_number,openid,avatar)
+        values(#{name},#{phone},#{sex},#{idNumber},#{openid},#{avatar})
+    </insert>
+
+</mapper>
