@@ -8,6 +8,9 @@ import com.sky.service.SetmealService;
 import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +40,8 @@ public class SetmealController {
      * @return
      */
     @PostMapping
+//    @CachePut会将Result.success()缓存起来，没有意义，新增操作需要清除旧的数据，以便后面的查询
+    @CacheEvict(value = "setmealCache",key = "#setmealDTO.categoryId")
     public Result save(@RequestBody SetmealDTO setmealDTO){
         log.info("新增套餐：{}", setmealDTO);
         setmealService.save(setmealDTO);
@@ -50,6 +55,7 @@ public class SetmealController {
      * @return
      */
     @PostMapping("/status/{status}")
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public Result updateStatus(@PathVariable Integer status,Long id){
         log.info("修改套餐状态：{},{}", status, id);
         setmealService.updateStatus(status,id);
@@ -62,6 +68,7 @@ public class SetmealController {
      * @return
      */
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public Result delete(@RequestParam List<Long> ids){//只有简单的数据类型可以不用加注解
         log.info("批量删除套餐：{}", ids);
         setmealService.delete(ids);
@@ -86,6 +93,7 @@ public class SetmealController {
      * @return
      */
     @PutMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public Result update(@RequestBody SetmealDTO setmealDTO){
         log.info("修改套餐：{}", setmealDTO);
         setmealService.update(setmealDTO);

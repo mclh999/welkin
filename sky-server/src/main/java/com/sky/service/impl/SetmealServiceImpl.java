@@ -21,6 +21,7 @@ import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @param setmealDTO
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(SetmealDTO setmealDTO) {
         //创建套餐对象
         com.sky.entity.Setmeal setmeal = new com.sky.entity.Setmeal();
@@ -81,6 +83,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @param id
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateStatus(Integer status, Long id) {
         //通过传参判断当前套餐是否未启售
         if(status==StatusConstant.DISABLE){
@@ -121,6 +124,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @param ids
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> ids) {
         //启售不能删除
         for (Long id : ids) {
@@ -160,6 +164,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @param setmealDTO
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(SetmealDTO setmealDTO) {
         com.sky.entity.Setmeal setmeal = new com.sky.entity.Setmeal();
 

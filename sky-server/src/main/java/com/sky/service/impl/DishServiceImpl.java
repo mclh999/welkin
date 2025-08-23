@@ -17,6 +17,7 @@ import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class DishServiceImpl implements DishService {
     private DishFlavorsMapper dishFlavorsMapper;
     @Autowired
     private SetmealDishMapper setmealDishMapper;
+
 
     /**
      * 新增菜品及口味
@@ -161,25 +163,25 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 根据分类id批量查询菜品和口味
-     * @param categoryId
+     * @param dish
      * @return
      */
     @Override
-    public List<DishVO> listWithFlavor(Long categoryId) {
+    public List<DishVO> listWithFlavor(Dish dish) {
         //查询菜品数据
-        List<Dish> dishList = list(categoryId);
+        List<Dish> dishList = list(dish.getCategoryId());
 
         //创建DishVO集合对象，用于封装DishVO数据
         List<DishVO> dishVOList = new ArrayList();
 
         //遍历菜品集合，获取每个菜品的口味
-        for (Dish dish : dishList) {
+        for (Dish d : dishList) {
             //创建DisshVO对象
             DishVO dishVO = new DishVO();
-            BeanUtils.copyProperties(dish,dishVO);
+            BeanUtils.copyProperties(d,dishVO);
 
             //给DishVO设置对应的口味数据
-            List<DishFlavor> dishFlavors = dishFlavorsMapper.getDishFlavorByDishId(dish.getId());
+            List<DishFlavor> dishFlavors = dishFlavorsMapper.getDishFlavorByDishId(d.getId());
             dishVO.setFlavors(dishFlavors);
 
             //封装集合

@@ -9,6 +9,7 @@ import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/list")
+    @CachePut(cacheNames = "SetmealCache", key = "#categoryId")//SetmealCache::categoryId
     public Result<List<Setmeal>> list(Long categoryId) {
         log.info("查询套餐：{}", categoryId);
         Setmeal setmeal = new Setmeal();
