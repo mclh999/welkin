@@ -91,4 +91,17 @@ public interface OrderService {
      * @return
      */
     OrderStatisticsVO statistics();
+
+    /**
+     * 查询历史订单
+     * @param pageQueryDTO
+     * @return
+     */
+    PageResult getHistoryOrders(OrdersPageQueryDTO pageQueryDTO);
+
+    /**
+     * 再来一单
+     * @param id
+     */
+    void repetition(Long id);
 }

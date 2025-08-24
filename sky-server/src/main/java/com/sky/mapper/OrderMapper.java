@@ -62,7 +62,7 @@ public interface OrderMapper {
      * 统计订单数据
      * @return
      */
-    Integer selectOrders(Integer status);
+    Integer countOrders(Integer status);
 
 
 }

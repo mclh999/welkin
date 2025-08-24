@@ -38,4 +38,10 @@ public interface ShoppingCartMapper {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 批量插入购物车数据
+     * @param shoppingCarts
+     */
+    void insertBatch(List<ShoppingCart> shoppingCarts);
 }

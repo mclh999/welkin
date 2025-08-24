@@ -1,11 +1,14 @@
 package com.sky.controller.user;
 
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +46,54 @@ public class OrderController {
     }
 
 
+    /**
+     * 用户根据订单id查询订单
+     * @param id
+     * @return
+     */
+    @GetMapping("/orderDetail/{id}")
+    public Result<OrderVO> userGetOrderById(@PathVariable Long id){
+        log.info("用户查询订单：{}", id);
+        OrderVO orderVO = orderService.getOrderById(id);
+        return Result.success(orderVO);
+    }
+
+    /**
+     * 查询历史订单
+     * @param pageQueryDTO
+     * @return
+     */
+    @GetMapping("/historyOrders")
+    public Result<PageResult> getHistoryOrders(OrdersPageQueryDTO pageQueryDTO){
+        log.info("查询历史订单");
+        PageResult pageResult = orderService.getHistoryOrders(pageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+    /**
+     * 取消订单
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @PutMapping("/cancel/{id}")
+    public Result userCancel(@PathVariable Long id) throws Exception{
+        log.info("用户取消订单：{}",id);
+        orderService.userCancel(id);
+        return Result.success();
+    }
+
+
+    /**
+     * 再来一单
+     * @param id
+     * @return
+     */
+    @PostMapping("/repetition/{id}")
+    public Result repetition(@PathVariable Long id) throws Exception{
+        log.info("用户重复点餐：{}",id);
+        orderService.repetition(id);
+        return Result.success();
+    }
 
 }
