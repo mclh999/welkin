@@ -1,9 +1,16 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.dto.OrdersPageQueryDTO;
+import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
+import com.sky.vo.OrderStatisticsVO;
+import com.sky.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -28,10 +35,34 @@ public interface OrderMapper {
 
     /**
      * 更新订单状态
-     * @param orderStatus
-     * @param orderPaidStatus
-     * @param checkOutTime
+     * 记得改成表中对应的字段
+     * @param status
+     * @param payStatus
+     * @param checkoutTime
      * @param id
      */
-    void updateStatus(Integer orderStatus, Integer orderPaidStatus, LocalDateTime checkOutTime, Long id);
+    void updateStatus(Integer status, Integer payStatus, LocalDateTime checkoutTime, Long id);
+
+    /**
+     * 根据id查询订单详情
+     * @param id
+     * @return
+     */
+    Orders getById(Long id);
+
+    /**
+     * 分页查询订单
+     * @param pageQueryDTO
+     * @return
+     */
+    Page<Orders> page(OrdersPageQueryDTO pageQueryDTO);
+
+
+    /**
+     * 统计订单数据
+     * @return
+     */
+    Integer selectOrders(Integer status);
+
+
 }

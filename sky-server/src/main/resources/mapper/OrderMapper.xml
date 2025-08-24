@@ -47,7 +47,37 @@
     </update>
 
     <update id="updateStatus">
-        update orders set status=#{orderStatus}, order_paid_status=#{orderPaidStatus}, check_out_time=#{checkOutTime} where id=#{id}
+        update orders set status=#{status}, pay_status=#{payStatus}, checkout_time=#{checkoutTime} where id=#{id}
     </update>
+
+    <select id="getById" resultType="com.sky.entity.Orders">
+        select * from orders where id=#{id}
+    </select>
+
+    <select id="page" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="number != null and number != ''">
+                and number = #{number}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="beginTime != null and endTime != null">
+                and order_time between #{beginTime} and #{endTime}
+            </if>
+        </where>
+        order by order_time desc
+    </select>
+
+    <select id="selectOrders" resultType="com.sky.vo.OrderStatisticsVO">
+        select count(*) from orders where status = #{status}
+    </select>
+
+
+
 
 </mapper>
