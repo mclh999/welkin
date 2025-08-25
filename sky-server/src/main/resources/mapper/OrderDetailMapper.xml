@@ -16,4 +16,17 @@
     <select id="getByOrderId" resultType="com.sky.entity.OrderDetail">
         select * from order_detail where order_id = #{orderId}
     </select>
+
+    <select id="getDishTop" resultType="java.util.Map">
+        select name,sum(od.number) as number  from order_detail od left join orders o on
+        od.order_id = o.id where o.status = 5 and o.order_time between #{begin} and #{end}
+        group by name order by number desc
+    </select>
+
+    <select id="getDishTop2" resultType="com.sky.dto.GoodsSalesDTO">
+        select name,sum(od.number) as number  from order_detail od left join orders o on
+            od.order_id = o.id where o.status = 5 and o.order_time between #{beginTime} and #{endTime}
+        group by name order by number desc limit 0,10
+    </select>
+
 </mapper>

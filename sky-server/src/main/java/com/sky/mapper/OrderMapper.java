@@ -70,4 +70,23 @@ public interface OrderMapper {
      * @return
      */
     List<Orders> processTimeoutOrders(Integer status, LocalDateTime orderTime);
+
+    /**
+     * 统计营业额数据
+     * @return
+     */
+    Double getTurnover(Map map);
+
+    /**
+     * 统计订单数量
+     * @return
+     */
+    Integer getOrderCount(Map map);
+
+    /**
+     * 获取指定时间区间的订单ID
+     * @param map
+     * @return
+     */
+    List<Integer> getOrderIdList(Map map);
 }

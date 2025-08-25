@@ -88,5 +88,39 @@
         select * from orders where status = #{status} and order_time &lt; #{orderTime}
     </select>
 
+    <select id="getTurnover" resultType="java.lang.Double">
+        select sum(status) from orders
+        <where>
+        <if test="begin != null and end != null">
+            order_time between #{begin} and #{end}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        </where>
+    </select>
 
+    <select id="getOrderCount" resultType="java.lang.Integer">
+        select count(*) from orders
+        <where>
+            <if test="begin != null and end != null">
+                order_time between #{begin} and #{end}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOrderIdList" resultType="java.lang.Integer">
+        select count(*) from orders
+        <where>
+            <if test="begin !=null and end != null">
+                order_time between #{begin} and #{end}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>
