@@ -12,25 +12,6 @@ import com.sky.vo.OrderVO;
 import java.util.List;
 
 public interface OrderService {
-    /**
-     * 用户下单
-     * @param ordersSubmitDTO
-     * @return
-     */
-    OrderSubmitVO submit(OrdersSubmitDTO ordersSubmitDTO);
-
-    /**
-     * 订单支付
-     * @param ordersPaymentDTO
-     * @return
-     */
-    OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) throws Exception;
-
-    /**
-     * 支付成功，修改订单状态
-     * @param outTradeNo
-     */
-    void paySuccess(String outTradeNo);
 
     //管理端
 
@@ -80,6 +61,27 @@ public interface OrderService {
 
 
     //用户端
+
+    /**
+     * 用户下单
+     * @param ordersSubmitDTO
+     * @return
+     */
+    OrderSubmitVO submit(OrdersSubmitDTO ordersSubmitDTO);
+
+    /**
+     * 订单支付
+     * @param ordersPaymentDTO
+     * @return
+     */
+    OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) throws Exception;
+
+    /**
+     * 支付成功，修改订单状态
+     * @param outTradeNo
+     */
+    void paySuccess(String outTradeNo);
+
     /**
      * 用户取消订单
      * @param id
@@ -104,4 +106,10 @@ public interface OrderService {
      * @param id
      */
     void repetition(Long id);
+
+    /**
+     * 催单
+     * @param id
+     */
+    void reminder(Long id);
 }

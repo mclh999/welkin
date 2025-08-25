@@ -11,6 +11,7 @@ import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -93,6 +94,19 @@ public class OrderController {
     public Result repetition(@PathVariable Long id) throws Exception{
         log.info("用户重复点餐：{}",id);
         orderService.repetition(id);
+        return Result.success();
+    }
+
+
+    /**
+     * 催单
+     * @param id
+     * @return
+     */
+    @GetMapping("/reminder/{id}")
+    public Result reminder(@PathVariable Long id){
+        log.info("用户催单：{}",id);
+        orderService.reminder(id);
         return Result.success();
     }
 

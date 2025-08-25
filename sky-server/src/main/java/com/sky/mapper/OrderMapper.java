@@ -65,4 +65,9 @@ public interface OrderMapper {
     Integer countOrders(Integer status);
 
 
+    /**
+     * 获取超时订单
+     * @return
+     */
+    List<Orders> processTimeoutOrders(Integer status, LocalDateTime orderTime);
 }

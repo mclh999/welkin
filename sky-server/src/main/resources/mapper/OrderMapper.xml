@@ -84,5 +84,9 @@
         select count(*) from orders where status = #{status}
     </select>
 
+    <select id="processTimeoutOrders" resultType="com.sky.entity.Orders">
+        select * from orders where status = #{status} and order_time &lt; #{orderTime}
+    </select>
+
 
 </mapper>
